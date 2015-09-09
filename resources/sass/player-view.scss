@@ -1,0 +1,32 @@
+.player-view {
+  [data-href] img {
+    cursor: pointer;
+  }
+
+  .profile-info {
+    overflow: hidden;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #eee;
+    margin-bottom: 30px;
+    img {
+      width: 130px;
+      height: 130px;
+    }
+    dt {
+      float: left;
+    }
+
+    dt {
+      width: 100px;
+      text-align: right;
+      margin-right: 20px;
+    }
+    dd {
+      min-width: 100px;
+      margin-left: 120px;
+    }
+  }
+
+
+
+}

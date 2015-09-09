@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>Starter Template for Bootstrap</title>
+    <!-- Bootstrap core CSS -->
+    <link href="css/style.css" rel="stylesheet">
+  </head>
+
+  <body>
+    <div class="app-wrapper">
+      <aside id="navigation" class="app-navbar"></aside>
+      <section id="app-outlet">
+      </section>
+    </div>
+
+
+    <!-- Thirdparty js libs TODO: Concat libs -->
+    <script src="../bower_components/handlebars/handlebars.min.js"></script>
+    <script src="../bower_components/jquery/dist/jquery.js"></script>
+
+    <script src="js/misc/CommonJSLite.js"></script>
+    <script src="js/misc/Util.js"></script>
+    <script src="js/template/templates.js"></script>
+    <script src="js/models/Server.js"></script>
+    <script src="js/models/DataCache.js"></script>
+
+    <script src="js/components/NavView.js"></script>
+    <script src="js/components/Filters.js"></script>
+    <script src="js/views/GameView.js"></script>
+    <script src="js/views/MainView.js"></script>
+    <script src="js/views/PlayerView.js"></script>
+
+    <script src="js/Router.js"></script>
+    <script src="js/App.js"></script>
+
+
+
+
+
+
+
+
+  <!-- templates: Todo: Pre-compile templates and move it to single js file -->
+
+
+
+
+  <!-- Navigation -->
+  <script id="tmpl-nav" type="text/x-handlebars-template">
+    <nav class="app-navbar">
+      <icon class="app-icon" title="Tick Tec Toe Analytics">
+        <i class="fa-gamepad fa fa-2x"></i>
+      </icon>
+      <ul class="nav-actions">
+        <li class="selected">
+          <a href="?page=games" title="Games">
+            <i class="fa fa-lg fa-cubes"></i><span>Games</span>
+          </a>
+        </li>
+
+        <li>
+          <a href="?page=players" title="Players">
+            <i class="fa fa-lg fa-users"></i><span>Players</span>
+          </a>
+        </li>
+
+        <li class="me">
+          <a href="?page=me" title="Me">
+            <i class="fa fa-lg fa-user"></i><span>Me</span>
+          </a>
+        </li>
+
+        <li>
+          <a href="?page=settings" title="Settings">
+            <i class="fa fa-lg fa-wrench"></i><span>Settings</span>
+          </a>
+        </li>
+      </ul>
+    </nav>
+  </script>
+
+
+  <!-- 404 -->
+  <script id="tmpl-404View" type="text/x-handlebars-template">
+    <div class="app-view">
+      <h1>{{message}}</h1>
+    </div>
+  </script>
+
+
+
+
+  <!-- mainView -->
+  <script id="tmpl-mainView" type="text/x-handlebars-template">
+    <div class="app-view main-view">
+      <section class="view-filters"></section>
+      <section class="view-content"></section>
+    </div>
+  </script>
+
+
+  <!-- playerView -->
+  <script id="tmpl-playerView" type="text/x-handlebars-template">
+    <div class="app-view player-view">
+      <section class="profile-info"></section>
+      <section>
+        <h4>Your games:</h4>
+        <div class="games-info"></div>
+      </section>
+    </div>
+  </script>
+
+
+  <!-- profileStats view -->
+  <script id="tmpl-profileInfo" type="text/x-handlebars-template">
+    <div class="row">
+      <div class="col-xs-6">
+        <img src="{{pic}}"/>
+        <h2 class="username">{{name}}</h2>
+      </div>
+
+      <dl class="meta-data col-xs-6">
+        <dt>Rank:</dt>
+        <dd>{{rank}}</dd>
+        <dt>Joined on:</dt>
+        <dd>{{dateJoined}}</dd>
+        <dt>Games won:</dt>
+        <dd>{{gamesWon}}</dd>
+        <dt>Games lost:</dt>
+        <dd>{{gamesLost}}</dd>
+        <dt>Total games:</dt>
+        <dd>{{totalGames}}</dd>
+      </dl>
+    </div>
+  </script>
+
+
+    <!-- Games rows partial -->
+  <script id="tmpl-gameRows" type="text/x-handlebars-template">
+    <ul class="game-list container-fluid">
+      {{#games}}
+        <li class="game-row {{winner}}sign row" data-href="?page=game&id={{id}}">
+          <div class="players">
+            <div class="player col-xs-4 {{player1.sign}}-sign" data-href="?page=player&id={{player1.id}}">
+              <img src="{{player1.pic}}"/>
+              <h4 class="username">{{player1.name}}</h4>
+              <span class="player-sign">
+                <i>{{player1.sign}}</i>
+                <span class="grove"></span>
+              </span>
+            </div>
+
+            <div class="player col-xs-4 {{player2.sign}}-sign" data-href="?page=player&id={{player2.id}}">
+              <img src="{{player2.pic}}"/>
+              <h4 class="username">{{player2.name}}</h4>
+              <span class="player-sign">
+                <i>{{player2.sign}}</i>
+                <span class="grove"></span>
+              </span>
+            </div>
+          </div>
+
+          <dl class="meta-data col-xs-3">
+            <dt>Played on :</dt>
+            <dd>{{startDate}}</dd>
+            <dt>Duration :</dt>
+            <dd>{{duration}} minutes</dd>
+          </dl>
+        </li>
+      {{/games}}
+    </ul>
+  </script>
+
+    <!-- Game view -->
+  <script id="tmpl-gameView" type="text/x-handlebars-template">
+    <div class="game-row {{winner}}sign row">
+      <div class="players">
+        <div class="player col-xs-4 {{player1.sign}}-sign" data-href="?page=player&id={{player1.id}}">
+          <img src="{{player1.pic}}"/>
+          <h4 class="username">{{player1.name}}</h4>
+          <span class="player-sign">
+            <i>{{player1.sign}}</i>
+            <span class="grove"></span>
+          </span>
+        </div>
+
+        <div class="player col-xs-4 {{player2.sign}}-sign" data-href="?page=player&id={{player2.id}}">
+          <img src="{{player2.pic}}"/>
+          <h4 class="username">{{player2.name}}</h4>
+          <span class="player-sign">
+            <i>{{player2.sign}}</i>
+            <span class="grove"></span>
+          </span>
+        </div>
+      </div>
+
+      <dl class="meta-data col-xs-3">
+        <dt>Played on :</dt>
+        <dd>{{startDate}}</dd>
+        <dt>Duration :</dt>
+        <dd>{{duration}} minutes</dd>
+      </dl>
+    </div>
+
+    <ul class="game-stats">
+      {{#seq}}
+        <li><span>{{.}}</span></li>
+      {{/seq}}
+    </ul>
+  </script>
+
+    <!-- Filters view -->
+  <script id="tmpl-filters" type="text/x-handlebars-template">
+    <div class="filters-component">
+      <i class="fa fa-filter fa-2x"></i>
+      <ul class="filters">
+        {{#filters}}
+          <li>
+            <label>{{key}}</label>
+            <select>
+              {{#val}}
+                <option>{{.}}</option>
+              {{/val}}
+            </select>
+          </li>
+        {{/filters}}
+      </ul>
+
+    </div>
+  </script>
+
+
+  </body>
+</html>

@@ -1,0 +1,30 @@
+// Add custom font
+@import url(http://fonts.googleapis.com/css?family=Raleway:400,700,300);
+$font-family-base: 'Raleway', sans-serif;
+
+// Import bootstrap and fontawesome
+@import "bootstrap";
+@import "font-awesome";
+
+// nav bar comp
+@import "navbar";
+@import "app-icon";
+
+// main view
+@import "main-view";
+// player view
+@import "player-view";
+
+// reset
+body, ul, li {
+ padding: 0;
+ margin: 0;
+ list-style: none;
+}
+
+#app-outlet {
+ padding: 30px 100px;
+}
+
+
+
